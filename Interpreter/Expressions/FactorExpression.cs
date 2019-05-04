@@ -30,15 +30,41 @@ namespace Interpreter.Expressions
             }
             else
             {
+                //var numberStr = "";
+
+                //do
+                //{
+                //    numberStr += input[0];
+                //    input.RemoveAt(0);
+                //} while (input.Count > 0 && char.IsDigit(input[0]));
+
+                //Number = double.Parse(numberStr);
+
                 var numberStr = "";
+                if (input[0] == '-')
+                {
+                    numberStr += '-';
+                    input.RemoveAt(0);
+                }
+                if (input.Count == 0)
+                {
+                    throw new UnexpectedTokenException();
+                }
 
                 do
                 {
                     numberStr += input[0];
                     input.RemoveAt(0);
-                } while (input.Count > 0 && char.IsDigit(input[0]));
+                } while (input.Count > 0 && (char.IsDigit(input[0]) || input[0] == '.'));
 
-                Number = double.Parse(numberStr);
+                if (double.TryParse(numberStr, out double temp))
+                {
+                    Number = temp;
+                }
+                else
+                {
+                    throw new UnexpectedTokenException(numberStr);
+                }
             }
         }
     }
