@@ -48,6 +48,12 @@ namespace Interpreter.Expressions
 
             input.RemoveAt(0);
 
+            //Term = new TermExpression();
+            //Term.Parse(input);
+            if (input.Count == 0)
+            {
+                throw new UnexpectedTokenException();
+            }
             Term = new TermExpression();
             Term.Parse(input);
         }

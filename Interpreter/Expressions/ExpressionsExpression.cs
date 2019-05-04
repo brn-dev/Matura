@@ -47,6 +47,10 @@ namespace Interpreter.Expressions
             }
 
             input.RemoveAt(0);
+            if(input.Count == 0)
+            {
+                throw new UnexpectedTokenException();
+            }
 
             Expression = new ExpressionsExpression();
             Expression.Parse(input);
