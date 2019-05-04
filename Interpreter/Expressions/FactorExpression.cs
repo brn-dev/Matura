@@ -18,6 +18,11 @@ namespace Interpreter.Expressions
             if (input[0] == '(')
             {
                 input.RemoveAt(0);
+                if (input.Count == 0)
+                {
+                    throw new UnexpectedTokenException();
+                }
+
                 Expression = new ExpressionsExpression();
                 Expression.Parse(input);
 
