@@ -26,6 +26,11 @@ namespace Interpreter.Expressions
                 Expression = new ExpressionsExpression();
                 Expression.Parse(input);
 
+                if(input.Count == 0)
+                {
+                    throw new UnexpectedTokenException();
+                }
+
                 if (input[0] != ')')
                 {
                     throw new UnexpectedTokenException(input[0].ToString(), "')'");
