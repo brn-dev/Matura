@@ -4,9 +4,12 @@ number := '0' | '1' | ...
 factor := '('<expression>')' | 
           <number>
 
-term := <factor> * <term> | 
-		<factor> / <term> | 
-		<factor>
+power := <factor> ^ <power> |
+		 <factor>
+
+term := <power> * <term> | 
+		<power> / <term> | 
+		<power>
 
 expression := <term> + <expression> | 
 			  <term> - <expression> | 

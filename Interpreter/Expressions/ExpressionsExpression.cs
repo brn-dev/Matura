@@ -37,7 +37,9 @@ namespace Interpreter.Expressions
             }
 
             if (input[0] != '-' && input[0] != '+')
+            {
                 return;
+            }
 
             if (input[0] == '-')
             {

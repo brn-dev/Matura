@@ -46,6 +46,7 @@
     <Compile Include="Expressions\AbstractExpression.cs" />
     <Compile Include="Expressions\ExpressionsExpression.cs" />
     <Compile Include="Expressions\FactorExpression.cs" />
+    <Compile Include="Expressions\PowerExpression.cs" />
     <Compile Include="Expressions\TermExpression.cs" />
     <Compile Include="Expressions\UnexpectedTokenException.cs" />
     <Compile Include="Program.cs" />

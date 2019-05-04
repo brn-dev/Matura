@@ -5,7 +5,7 @@ namespace Interpreter.Expressions
     internal class TermExpression : AbstractExpression
     {
 
-        public FactorExpression Factor { get; private set; }
+        public PowerExpression Power { get; private set; }
 
         public TermExpression Term { get; private set; }
 
@@ -15,21 +15,21 @@ namespace Interpreter.Expressions
         {
             if (Term is null)
             {
-                return Factor.Interpret();
+                return Power.Interpret();
             }
 
             if (IsDivision)
             {
-                return Factor.Interpret() / Term.Interpret();
+                return Power.Interpret() / Term.Interpret();
             }
 
-            return Factor.Interpret() * Term.Interpret();
+            return Power.Interpret() * Term.Interpret();
         }
 
         public override void Parse(IList<char> input)
         {
-            Factor = new FactorExpression();
-            Factor.Parse(input);
+            Power = new PowerExpression();
+            Power.Parse(input);
 
             if (input.Count == 0)
             {
@@ -37,7 +37,9 @@ namespace Interpreter.Expressions
             }
 
             if (input[0] != '*' && input[0] != '/')
+            {
                 return;
+            }
 
             if (input[0] == '/')
             {
