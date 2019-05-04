@@ -1,0 +1,13 @@
+﻿
+number := '0' | '1' | ...
+
+factor := '('<expression>')' | 
+          <number>
+
+term := <factor> * <term> | 
+		<factor> / <term> | 
+		<factor>
+
+expression := <term> + <expression> | 
+			  <term> - <expression> | 
+			  <term>
