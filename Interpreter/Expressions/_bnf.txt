@@ -2,7 +2,7 @@
 number := '0' | '1' | ...
 
 factor := '('<expression>')' | 
-          <number>
+          ['-']<number>
 
 power := <factor> ^ <power> |
 		 <factor>

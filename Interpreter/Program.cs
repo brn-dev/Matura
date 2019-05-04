@@ -11,7 +11,7 @@ namespace Interpreter
             while (true)
             {
                 var input = Console.ReadLine();
-                var list = input.ToCharArray().ToList();
+                var list = input.ToList();
                 var expression = new ExpressionsExpression();
                 expression.Parse(list);
                 var result = expression.Interpret();
