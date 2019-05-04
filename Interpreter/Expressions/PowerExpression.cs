@@ -32,6 +32,11 @@ namespace Interpreter.Expressions
 
             input.RemoveAt(0);
 
+            if (input.Count == 0)
+            {
+                throw new UnexpectedTokenException();
+            }
+
             Power = new PowerExpression();
             Power.Parse(input);
         }
