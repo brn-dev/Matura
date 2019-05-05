@@ -8,6 +8,6 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <graphControl:Graph Name="Graph" ></graphControl:Graph>
+        <graphControl:Graph Name="Graph" EndChanged="Graph_OnEndChanged"></graphControl:Graph>
     </Grid>
 </Window>

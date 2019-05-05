@@ -1,7 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Windows;
+using System.Windows.Media;
 using GraphControl;
 using IpGraph.Database;
+using IpGraph.Database.Models;
 
 namespace IpGraph
 {
@@ -14,6 +18,7 @@ namespace IpGraph
 
         public MainWindow()
         {
+            DataContext = this;
             InitializeComponent();
             InitDatabaseData();
         }
@@ -42,6 +47,97 @@ namespace IpGraph
                     Text = connection.Id.ToString()
                 };
                 Graph.Edges.Add(edge);
+            }
+        }
+
+        private Router GetMin(IReadOnlyCollection<Router> routers, Dictionary<Router, double> dist)
+        {
+            var minDist = double.PositiveInfinity;
+            Router minRouter = null;
+
+            foreach (var router in routers)
+            {
+                if (dist[router] < minDist)
+                {
+                    minRouter = router;
+                    minDist = dist[router];
+                }
+            }
+
+            if (minRouter is null)
+            {
+                return routers.First();
+            }
+
+            return minRouter;
+        }
+
+        private IEnumerable<(Router, double)> GetNeighbors(Router router)
+        {
+            var neighbors = new List<(Router, double)>();
+
+            foreach (var conn in router.Endpoint1Connections)
+            {
+                neighbors.Add((conn.Endpoint2, conn.TransmissionTime));
+            }
+
+            foreach (var conn in router.Endpoint2Connections)
+            {
+                neighbors.Add((conn.Endpoint1, conn.TransmissionTime));
+            }
+
+            return neighbors;
+        }
+
+
+        private void Graph_OnEndChanged(object sender, RoutedEventArgs e)
+        {
+            var routers = RoutingDbContext.Instance.Routers.ToArray();
+
+            var start = routers.Single(r => r.Id.ToString() == Graph.Start.Text);
+            var end = routers.Single(r => r.Id.ToString() == Graph.End.Text);
+
+            var q = new List<Router>();
+
+            var dist = new Dictionary<Router, double>();
+            var prev = new Dictionary<Router, Router>();
+
+            foreach (var router in routers)
+            {
+                dist[router] = double.PositiveInfinity;
+                prev[router] = null;
+                q.Add(router);
+            }
+
+            dist[start] = 0;
+
+            while (q.Count > 0)
+            {
+                var u = GetMin(q, dist);
+
+                q.Remove(u);
+
+                if (u == end)
+                {
+                    while (u != null)
+                    {
+                        _nodesById[u.Id].Colors.Add(Colors.Blue);
+                        Debug.WriteLine(u.Id);
+                        u = prev[u];
+                    }
+
+                    return;
+                }
+
+                foreach (var (neighbor, distance) in GetNeighbors(u))
+                {
+                    var alt = dist[u] + distance;
+                    if (alt < dist[neighbor])
+                    {
+                        dist[neighbor] = alt;
+                        prev[neighbor] = u;
+                    }
+                }
             }
         }
     }

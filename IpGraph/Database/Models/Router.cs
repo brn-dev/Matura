@@ -24,7 +24,7 @@ namespace IpGraph.Database.Models
 
         [Association(
             Storage = nameof(_endpoint1Connections), 
-            OtherKey = "Endpoint1", 
+            OtherKey = "_endpoint1Id", 
             ThisKey = "Id")]
         public ICollection<Connection> Endpoint1Connections
         {
@@ -36,7 +36,7 @@ namespace IpGraph.Database.Models
 
         [Association(
             Storage = nameof(_endpoint2Connections), 
-            OtherKey = "Endpoint2", 
+            OtherKey = "_endpoint2Id", 
             ThisKey = "Id")]
         public ICollection<Connection> Endpoint2Connections
         {
